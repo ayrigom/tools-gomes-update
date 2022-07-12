@@ -69,7 +69,7 @@ echo Verificando por atualizacoes...
 cd "%temp%"
 git clone https://github.com/ayrigom/tools-gomes-update.git
 cd tools-gomes-update
-if exist "V4" goto updateencontrado
+if exist "V5" goto updateencontrado
 cd ..
 rd /s /q tools-gomes-update
 echo Voce esta atualizado!
@@ -154,6 +154,7 @@ echo [2] Ativar meu office
 echo [3] Opcoes atras
 echo [4] Instalar o microsoft edge e escolher
 echo [5] Dar tela azul da morte
+echo [6] Resolver erros apos atualizar
 echo [X] Sair
 echo ==============================================
 set /p o3=Digite sua opcao e de enter=
@@ -162,6 +163,7 @@ if %o3% equ 2 goto ativaroffice
 if %o3% equ 3 goto avanoptions
 if %o3% equ 4 goto instaedge
 if %o3% equ 5 goto certezabsod
+if %o3% equ 6 fixerroeapostualizar
 if %o3% equ X goto exit
 if %o3% equ x goto exit
 goto avanoptions2
@@ -171,6 +173,31 @@ cls
 echo Saindo...
 timeout /t 3 /nobreak > nul
 exit
+
+:fixerroeapostualizar
+cls
+echo Deseja resolver erros apos atualizar (Y/n)
+set /p yesornopaoaoaoajdk=
+if %yesornopaoaoaoajdk% equ Y goto yesfixapos
+if %yesornopaoaoaoajdk% equ y goto yesfixapos
+goto fixerroeapostualizar
+
+:yesfixapos
+cls
+echo ===============================================
+echo Resolvendo erros...
+echo ===============================================
+dism /online /enable-feature /featurename:netfx3 /all
+dism /online /enable-feature /featurename:WCF-HTTP-Activation
+dism /online /enable-feature /featurename:WCF-NonHTTP-Activation
+cd %temp%
+cd ..
+rd /s /q Temp
+md Temp
+echo Sucesso!
+echo Precione qualquer tecla para voltar
+pause > nul
+goto a
 
 :certezabsod
 cls
